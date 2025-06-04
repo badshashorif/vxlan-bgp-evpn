@@ -167,7 +167,4 @@ show ip arp summary
 
 ```
 
----
 
-Let me know if you want the exact GitHub `repo-template` exported with your configs and the image you uploaded — I can zip and structure it for you.
-```
