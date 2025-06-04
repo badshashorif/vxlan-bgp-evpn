@@ -1,4 +1,3 @@
----
 
 ````markdown
 # VXLAN EVPN Troubleshooting Lab (NX-OS + MikroTik CORE)
