@@ -150,13 +150,14 @@ show ip arp summary
 📁 vxlan-evpn-lab/
 ├── README.md
 ├── configs/
-│   ├── NXOS2.txt
-│   ├── NXOS3.txt
-│   ├── NXOS4.txt
-│   ├── NXOS5.txt
+│   ├── NXOS2.cfg
+│   ├── NXOS3.cfg
+│   ├── NXOS4.cfg
+│   ├── NXOS5.cfg
 │   └── CORE_ROUTER.txt (optional)
-├── diagram/
-│   └── vxlan-lab.png
+|   └── ACCESS_ROUTER.txt (optional)
+├── vxlan-lab.png
+
 ```
 
 ---
