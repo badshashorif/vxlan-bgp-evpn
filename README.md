@@ -1,4 +1,4 @@
- Ei project-e apnar **VXLAN-based L2 bridging + L3 routing (Type-2/3)** topology explain korchi step-by-step with configuration logic:
+In this project **VXLAN-based L2 bridging + L3 routing (Type-2/3)** topology explained step-by-step with configuration logic:
 
 ---
 
