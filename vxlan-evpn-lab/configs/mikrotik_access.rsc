@@ -1,0 +1,1 @@
+/interface vlan add name=vlan201 vlan-id=201 interface=sfp1
