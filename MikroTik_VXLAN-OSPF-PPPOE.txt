@@ -1,0 +1,183 @@
+...............................DIST-RTR.......................................
+
+/interface bridge
+add name=BRIDGE-VxLAN-VNI-100
+add name=BRIDGE-VxLAN-VNI-200
+add name=loopback
+/interface vlan
+add interface=ether1 name=vlan100 vlan-id=100
+add interface=ether1 name=vlan200 vlan-id=200
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+/ip pool
+add name=user_pool ranges=10.11.0.2-10.11.0.10
+add name=dhcp_pool1 ranges=10.11.0.2-10.11.0.254
+add name=dhcp_pool2 ranges=10.12.0.2-10.12.0.254
+/ip dhcp-server
+add address-pool=dhcp_pool2 interface=BRIDGE-VxLAN-VNI-200 name=dhcp1
+/interface vxlan
+add mac-address=42:7C:1F:68:A1:F6 name=vxlan_100 port=8472 vni=100 vrf=main vteps-ip-version=ipv4
+add mac-address=BA:74:2E:17:CC:E9 name=vxlan_200 port=8472 vni=200 vrf=main vteps-ip-version=ipv4
+/port
+set 0 name=serial0
+/ppp profile
+add local-address=192.168.2.2 name=pppoe_users remote-address=user_pool
+/routing id
+add disabled=no id=192.168.2.2 name=id-1 select-dynamic-id=only-vrf select-from-vrf=main
+/routing ospf instance
+add disabled=no name=ospf-instance-1 redistribute=connected router-id=id-1
+/routing ospf area
+add disabled=no instance=ospf-instance-1 name=Area0
+/interface bridge port
+add bridge=BRIDGE-VxLAN-VNI-100 interface=vxlan_100
+add bridge=BRIDGE-VxLAN-VNI-200 interface=vxlan_200
+add bridge=BRIDGE-VxLAN-VNI-100 interface=vlan100
+add bridge=BRIDGE-VxLAN-VNI-200 interface=vlan200
+/interface pppoe-server server
+add default-profile=pppoe_users disabled=no interface=BRIDGE-VxLAN-VNI-100 service-name=service1
+/interface vxlan vteps
+add interface=vxlan_100 remote-ip=192.168.3.3
+add interface=vxlan_100 remote-ip=192.168.4.4
+/ip address
+add address=192.168.2.2 interface=loopback network=192.168.2.2
+add address=10.10.10.2/30 interface=ether1 network=10.10.10.0
+add address=10.12.0.1/24 interface=BRIDGE-VxLAN-VNI-200 network=10.12.0.0
+/ip dhcp-client
+add interface=ether4
+/ip dhcp-server network
+add address=10.11.0.0/24 gateway=10.11.0.1
+add address=10.12.0.0/24 gateway=10.12.0.1
+/ppp secret
+add name=user1 profile=pppoe_users
+/routing ospf interface-template
+add area=Area0 disabled=no interfaces=ether1 networks=10.10.10.0/30 type=ptp
+/system identity
+set name=DIST-RTR
+/system note
+set show-at-login=no
+
+
+...................................CORE-RTR..............................................
+
+
+
+
+/interface bridge
+add name=loopback
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+/port
+set 0 name=serial0
+/routing id
+add disabled=no id=192.168.1.1 name=id-1 select-dynamic-id=only-vrf select-from-vrf=main
+/routing ospf instance
+add disabled=no name=ospf-instance-1 originate-default=if-installed redistribute=connected router-id=id-1
+/routing ospf area
+add disabled=no instance=ospf-instance-1 name=Area0
+add area-id=1.1.1.1 disabled=no instance=ospf-instance-1 name=Area1
+add area-id=2.2.2.2 disabled=no instance=ospf-instance-1 name=Area2
+/ip address
+add address=10.10.10.1/30 interface=ether3 network=10.10.10.0
+add address=192.168.1.1 interface=loopback network=192.168.1.1
+add address=10.10.10.5/30 interface=ether4 network=10.10.10.4
+add address=10.10.10.9/30 interface=ether5 network=10.10.10.8
+/ip dhcp-client
+add interface=ether1
+/ip firewall nat
+add action=masquerade chain=srcnat out-interface=ether1
+/routing ospf interface-template
+add area=Area0 disabled=no interfaces=ether3 networks=10.10.10.0/30 type=ptp
+add area=Area1 disabled=no interfaces=ether4 networks=10.10.10.4/30 type=ptp
+add area=Area2 disabled=no interfaces=ether5 networks=10.10.10.8/30 type=ptp
+add area=Area0 disabled=no interfaces=loopback networks=192.168.1.1/32 passive
+/system identity
+set name=CORE-RTR
+/system note
+set show-at-login=no
+
+
+
+..............................................ACCESS-RTR1.......................................
+
+
+
+/interface bridge
+add name=BRIDGE-VxLAN-VNI-100
+add name=loopback
+/interface vlan
+add interface=ether3 name=vlan100 vlan-id=100
+add disabled=yes interface=ether3 name=vlan200 vlan-id=200
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+/interface vxlan
+add mac-address=06:F2:7E:C9:8D:C7 name=vxlan100 port=8472 vni=100 vrf=main vteps-ip-version=ipv4
+/port
+set 0 name=serial0
+/routing id
+add disabled=no id=192.168.3.3 name=id-1 select-dynamic-id=only-vrf select-from-vrf=main
+/routing ospf instance
+add disabled=no name=ospf-instance-1 redistribute=connected
+/routing ospf area
+add area-id=1.1.1.1 disabled=no instance=ospf-instance-1 name=Area1
+/interface bridge port
+add bridge=BRIDGE-VxLAN-VNI-100 interface=vxlan100
+add bridge=BRIDGE-VxLAN-VNI-100 interface=vlan100
+/interface vxlan vteps
+add interface=vxlan100 remote-ip=192.168.2.2
+/ip address
+add address=192.168.3.3 interface=loopback network=192.168.3.3
+add address=10.10.10.6/30 interface=ether1 network=10.10.10.4
+add address=30.30.30.1/30 interface=vlan100 network=30.30.30.0
+/ip dhcp-client
+add interface=ether4
+/routing ospf interface-template
+add area=Area1 disabled=no interfaces=ether1 networks=10.10.10.4/30 type=ptp
+/system identity
+set name=ACCESS-RTR1
+/system note
+set show-at-login=no
+
+
+
+
+
+...................................................ACCESS-RTR2..............................................
+
+
+
+/interface bridge
+add name=BRIDGE-VxLAN-VNI-200
+add name=loopback
+/interface vlan
+add interface=ether2 name=vlan100 vlan-id=100
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+/interface vxlan
+add mac-address=3E:4A:7B:D4:3D:CB name=vxlan100 port=8472 vni=100 vrf=main vteps-ip-version=ipv4
+/port
+set 0 name=serial0
+/routing ospf instance
+add disabled=no name=ospf-instance-1 redistribute=connected
+/routing ospf area
+add area-id=2.2.2.2 disabled=no instance=ospf-instance-1 name=Area2
+/interface bridge port
+add bridge=BRIDGE-VxLAN-VNI-200 interface=vxlan100
+add bridge=BRIDGE-VxLAN-VNI-200 interface=vlan100
+/interface vxlan vteps
+add interface=vxlan100 remote-ip=192.168.2.2
+/ip address
+add address=192.168.4.4 interface=loopback network=192.168.4.4
+add address=10.10.10.10/30 interface=ether1 network=10.10.10.8
+add address=40.40.40.1/30 interface=vlan100 network=40.40.40.0
+/ip dhcp-client
+add interface=ether4
+/routing ospf interface-template
+add area=Area2 disabled=no interfaces=ether1 networks=10.10.10.8/30 type=ptp
+/system identity
+set name=ACCESS-RTR2
+/system note
+set show-at-login=no
+
+
+
+

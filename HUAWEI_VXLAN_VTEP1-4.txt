@@ -1,0 +1,1106 @@
+For VTEP-1:
+==============
+
+
+<VTEP1>display current-configuration
+!Software Version V200R021C00SPC600
+#
+sysname VTEP1
+#
+router id 10.1.1.1
+#
+vcmp role silent
+#
+vlan batch 10
+#
+authentication-profile name default_authen_profile
+authentication-profile name dot1x_authen_profile
+authentication-profile name dot1xmac_authen_profile
+authentication-profile name mac_authen_profile
+authentication-profile name multi_authen_profile
+authentication-profile name portal_authen_profile
+#
+telnet server enable
+telnet server-source -i LoopBack0
+#
+http server-source -i MEth0/0/1
+#
+diffserv domain default
+#
+ip vpn-instance vpn1
+ ipv4-family
+  route-distinguisher 1:100
+  vpn-target 1:100 export-extcommunity evpn
+  vpn-target 1:100 import-extcommunity evpn
+ vxlan vni 1000
+#
+evpn vpn-instance evpn300 bd-mode
+ route-distinguisher 300:1
+ vpn-target 100:300 export-extcommunity
+ vpn-target 100:300 import-extcommunity
+#
+evpn vpn-instance evpn200 bd-mode
+ route-distinguisher 200:1
+ vpn-target 100:200 export-extcommunity
+ vpn-target 100:200 import-extcommunity
+#
+evpn vpn-instance evpn1300 bd-mode
+ route-distinguisher 1300:1
+ vpn-target 100:1300 export-extcommunity
+ vpn-target 100:1300 import-extcommunity
+#
+radius-server template default
+#
+pki realm default
+ certificate-check none
+#
+free-rule-template name default_free_rule
+#
+portal-access-profile name portal_access_profile
+#
+drop-profile default
+#
+aaa
+ authentication-scheme default
+  authentication-mode local
+ authentication-scheme radius
+  authentication-mode radius
+ authorization-scheme default
+  authorization-mode local
+ accounting-scheme default
+  accounting-mode none
+ local-aaa-user password policy administrator
+  password history record number 0
+  password expire 0
+ domain default
+  authentication-scheme radius
+  accounting-scheme default
+  radius-server default
+ domain default_admin
+  authentication-scheme default
+  accounting-scheme default
+ local-user admin password irreversible-cipher $1c$=Y;$8T]4B:$G\$=WI_^vNC\XMDnx^w:O|!l8UYMO-c`,x9#D*s$$
+ local-user admin privilege level 15
+ local-user admin service-type telnet http
+#
+bridge-domain 200
+ vxlan vni 200
+ evpn binding vpn-instance evpn200
+bridge-domain 300
+ vxlan vni 300
+ evpn binding vpn-instance evpn300
+bridge-domain 1300
+ vxlan vni 1300
+ evpn binding vpn-instance evpn1300
+#
+interface Vlanif1
+#
+interface Vlanif10
+ description MGMT
+ ip address 10.10.10.2 255.255.255.252
+#
+interface MEth0/0/1
+ ip address 192.168.1.253 255.255.255.0
+#
+interface XGigabitEthernet0/0/1
+ undo portswitch
+ ip áddress 192.168.11.1 255.255.255.252
+#
+interface XGigabitEthernet0/0/2
+ undo portswitch
+ iº
+   ?ÍÍ192.168.12.1 255.255.255.252
+#
+interface XGigabitEthernet0/0/3
+#
+interface XGigabitEthernet0/0/4
+#
+interface XGigabitE}hernet0/0/5
+#
+interface XGigabitEthernet0/0/6
+#
+interface XGigabitEthernet0/0/7
+ port link-type trunk
+#
+interface XGigabitEthernet0/0/7.200 mode l2
+ encapsulation dot1q vid 200
+ bridge-domain 200
+#
+interface XGigabitEthernet0/0/7.300 mode l2
+ encapsulation dot1q vid 300
+ bridge-domain 300
+#
+interface XGigabitEthernet0/0/8
+ port link-type trunk
+#
+interface XGigabitEthernet0/0/8.1300 mode l2
+ encapsulation dot1q vid 300
+ bridge-domain 1300
+#
+interface XGigabitEthernet0/0/9
+ port link-type trunk
+#
+interface XGigabitEthernet0/0/10
+ port link-type trunk
+ port trunk allow-pass vlan 10
+#
+interface XGigabitEthernet0/0/11
+#
+ interface XGigabitEthernet0/0/12
+#
+interface XGigabitEthernet0/0/13
+#
+interface XGigabitEthernet0/0/14
+#
+interface XGigabitEthernet0/0/15
+#
+interface XGigabitEthernet0/0/16
+#
+interface XGigabitEthernet0/0/17
+#
+interface XGigabitEthernet0/0/18
+#
+interface XGigabitEthernet0/0/19
+#
+interface XGigabitEthernet0/0/20
+#
+interface XGigabitEthernet0/0/21
+#
+interface XGigabitEthernet0/0/22
+#
+interface XGigabitEthernet0/0/23
+#
+interface XGigabitEthernmt0/0/24
+#
+interface XGigabitEthernet0/0/25
+#
+interface XGigabitEthernet0/0/26
+#
+interface XGigabitEthernet0/0/27
+#
+interface XGigabitEthernet0/0/28
+#
+interface XGigabitEthernet0/0/29
+#
+interface XGigabitEthernet0/0/30
+#
+interface XGigabitEthernet0/0/31
+#
+interface XGigabitEthernet0/0/32
+#
+interface XGigabitEthernet0/0/33
+#-
+  interface XGigabitEthernet0/0/34
+#
+interface XGigabitEthernet0/0/35
+#
+interface XGigabitEthernet0/0/36
+#
+interface XGigabitEthernet0/0/37
+#
+interface XGigabitEthernet0/0/38
+#
+interface XGigabitEthernet0/0/Sj
+                                #
+interface XGigabitEthernet0/0/40
+#
+interface XGigabitEthernet0/0/41
+#
+interface XGigabitEthernet0/0/42
+#
+interface XGigabitEthernet0/0/43
+#
+interface XGigabitEthernet0/0/44
+#
+interface XGigabitEthernet0/0/45
+#
+interface XGigabitEthernet0/0/46
+#
+interface XGigabitEthernet0/0/47
+#
+interface XGigabitEthernet0/0/48
+#
+interface 100GE0/0/1
+#
+interface 100GE0/0/2
+#
+interface 100GE0/0/3
+#
+interface 100GE0/0/4
+#
+interface 100GE0/0/5
+#
+interface 100GE0/0/6
+#
+interface NULL0
+#
+interface LoopBack0
+ ip address 10.1.1.1 255.255.255.255
+#
+interface Vbdif300
+ description MGNT
+ ip address 192.169.10.11 255.255.255.0
+#
+interface Nve1
+ source 10.1.1.1
+ vni&Bµend peer-list protocol bgp
+                                   Ú[42D vni 300 head-end peer-list protocol bgp
+ vni 1300 head-end peer-list protocol bgp
+#
+bgp 134732
+ peer 10.2.2.2 as-number 134732
+ peer 10.2.2.2 connect-interface LoopBack0
+ peer 10.3.3.3 as-number 134732
+ peer 10.3.3.3 connect-interface LoopBack0
+ peer 10.4.4.4 as-number 134732
+ #
+ ipv4-family unicast
+  undo synchronization
+  peer 10.2.2.2 enable
+  peer 10.3.3.3 enable
+  peer 10.4.4.4 enable
+ #
+ l2vpn-family evpn
+  policy vpn-target
+  peer 10.2.3.2 enable
+  peer 10.3.3.3 enable
+  peer 10.4.4.4 enable
+#C¡kY1 router-id 10.1.1.1
+ area 0.0.0.0
+  network 10.1.1.1 0.0.0.0
+  network 10.10.10.0 0.0.0.3
+  network 192.168.11.0 0.0.0.3
+  network 192.168.12.0 0.0.0.3
+  network 192.168.16>0 0.0.0.3
+#
+undo icmp name timmstamp-request receive
+#
+ssh server cipher aes256_ctr aes128_ctr
+ssh server hmac sha2_256
+ssh server key-exchange dh_group16_sha512 dh_group15_sha512 dh_group14_sha256 dh_group_exchange_sha256
+ssh client cipher aes256_ctr aes128_ctr
+ssh client hmac sha2_256
+ssh client key-exchange dh_group16_sha512 dh_group15_sha512 dh_group14_sha256 dh_group_exchange_sha256
+ssh server dh-exchange min-len 2048
+ssh server publickey rsa_sha2_512 rsa_sha2_256
+#
+user-interface maximum-vty 15
+user-interface con 0
+ authentication-mode password
+ set authentication password cipher $1c$pmYY$<QiqR$45AdDV3}FW]"/](]1":Hn(Qh$<ZZM<2_/J2ts435C¡×Éµinterface vty 0 14
+ authentication-mode aaa
+ protocol inbound telnet
+user-interface vty 16 20
+#
+dot1x-access-profile name dot1x_access_profile
+#
+mac-access-profile name mac_access_profile
+#
+ops
+#
+
+
+
+FOR VTEP2
+===============
+
+<VTEP2>display current-configuration
+!Software Version V200R021C00SPC600
+#
+sysname VTEP2
+#
+router id 10.2.2.2
+#
+vcmp role silent
+#
+authentication-profile name default_authen_profile
+authentication-profile name dot1x_authen_profile
+authentication-profile name dot1xmac_authen_profile
+authentication-profile name mac_authen_profile
+authentication-profile name multi_authen_profile
+authentication-profile name portal_authen_profile
+#
+telnet server enable
+telnet server-source -i LoopBack0
+#
+http server-source -i MEth0/0/1
+#
+diffserv domain default
+#
+ip vpn-instance vpn1
+ ipv4-family
+  route-distinguisher 1:1000
+  vpn-target 1:1000 export-extcommunity evpn
+  vpn-target 1:1000 import-extcommunity evpn
+ vxlan vni 1000
+#
+evpn vpn-instance evpn300 bd-mode
+ route-distinguisher 300:1
+ vpn-target 100:300 export-extcommunity
+ vpn-target 100:300 import-extcommunity
+#
+radius-server template default
+#
+pki realm default
+ certificate-check none
+#
+free-rule-template name default_free_rule
+#
+portal-access-profile name portal_access_profile
+#
+drop-profile default
+#
+aaa
+ authentication-scheme default
+  authentication-mode local
+  ---- More ---- authentication-scheme radius
+  authentication-mode radius
+ authorization-scheme default
+  authorization-mode local
+ accounting-scheme default
+  accounting-mode none
+ local-aaa-user password policy administrator
+  password history record number 0
+  password expive 0
+ domain default
+  authentication-scheme radius
+  accounting-scheme default
+  radius-server default
+ domain default_admin
+  authentication-scheme default
+  accounting-scheme default
+ local-user admin password irreversible-cipher $1c$1'8m4Bq4(9$pNmn12:iO65'hbNd\0a)a7(_0)&;1WAQhs.C<cs/$
+ local-user admin privilege level 15
+ local-user admin service-type telnet http
+#
+bridge-domain 300
+ vxlan vni 300
+ evpn binding vpn-instance evpn300
+#
+interface Vlanif1
+#
+interface MEth0/0/1
+ ip address 192.168.1.253 255.255.255.0
+#
+interface XGigabitEthernet0/0/1
+ undo portswitch
+ ip address 192.168.11.2 255.255.255.252
+#
+interface XGigabitEthernet0/0/2
+ undo portswitch
+ ip address 192.168.13.1 255.255.255.252
+#
+interface XGigabitEthernet0/0/3
+#
+interface XGigabitEthernet0/0/4
+#
+interface XGiwabitEthernet0/0/5
+#
+interface XGigabitEthernet0/0/6
+#
+interface XGigabitEthernet0/0/7
+ port link-type trunk
+#
+interface XGigabitEthernet0/0/7.300 mode l2
+ encapsulation dot1q vid 300
+ bridge-domain 300
+#
+interface XGigabitEthernet0/0/8
+#
+interface XGigabitEthernet0/0/9
+#
+interface XGigabitEthernet0/0/10
+#
+interface XGigabitEthernet0/0/11
+#
+interface XGigabitEthernet0/0/12
+#
+interface XGigabitEthernet0/0/13
+#
+interface XGigabitEthernet0/0/14
+#
+interface XGigabitEthernet0/0/15
+#
+interface XGigabitEthernet0/0/16
+#
+interface XGigabitEthernet0/0/17
+#
+interface XGigabitEthernet0/0/18
+#
+interface XGigabitEthernet0/0/19
+#
+interface XGigabitEthernet4/0/20
+#
+interface XGigabitEthernet0/0/21
+#
+interface XGigabitEthernet0/0/22
+#
+interface XGigabitEthernet0/0/23
+#
+interface XGigabitEthernet0/0/24
+#
+interface XGigabitEthernet0/0/25
+#
+interface XGigabitEthernet0/0/26
+#
+interface XGigabitEthernet0/0/27
+#
+interface XGigabitEthernet0/0/28
+#
+interface XGigabitEthernet0/0/29
+#
+interface XGigabitEthernet0/0/30
+#
+interface XGigabitEthernet0/0/31
+#
+interface XGigabitEthernet0/0/32
+#
+interface XGigabitEthernet0/0/33
+#
+interface XGigabitEthernet0/0/34
+#
+interface XGigabitEthernet0/0/35
+#
+interface XGigabitEthernet0/0/36
+#
+interface XGigabitEthernet0/0/37
+#
+interface XGigabitEthernet0/0/38
+#
+interface XGigabitEther·YzzÊj
+                             #
+interface XGigabitEthernet0/0/40
+#
+interface XGigabitEthernet0/0/41
+#
+interface XGigabitEthernet0/0/42
+#
+interface XGigabitEthernet0/0/43
+#
+interface XGigabitEthernet0/0/44
+#
+interface XGigabitEthernet0/0/45
+#
+interface XGigabitEthernet0/0/46
+#
+interface XGigabitEthernet0/0/47
+#
+interface XGigabitEthernet0/0/48
+#
+interface 100GE0/0/1
+#
+interface 100GE0/0/2
+#
+interface 100GE0/0/3
+#
+interface 100GE0/0/4
+#
+interface 100GE0/0/5
+#
+interface 100GE0/1/6            (
+#
+interface NULL0
+#
+interface LoopBack0
+ ip address 10.2.2.2 255.255.255.255
+#
+interface Nve1
+ source 10.2.2.2
+ vni 300 head-end peer-list protocol bgp
+#
+bgp 134732
+ peer 10.1.1.1 as-number 134732
+ peer 10.1.1.1 connect-interface LoopBack0
+ peer 10.3.3.3 as-number 134732
+ peer 10.3.3.3 connect-interface LoopBack0
+ peer 10.4.4.4 as-number 134732
+ peer 10.4.4.4 connect-interface LoopBack0
+ #
+ ipv4-family unicast
+  undo synchronization
+  peer 10.1.1.1 enable
+  peer 10.3.3.3 enable
+  peer 10.4.4.4 enable
+ #
+ l2vpn-family evpn
+  policy vpn-target
+  peer 10.1.1.1 enable
+  peer 10.1.1.1 advertise irb
+  peer 10.3.3.3 enable
+  peer 10.3.3.3 advertise irb
+  peer 10.4.4.4 enable
+ #
+ ipv4-fa[Z+vpn-instance vpn1
+  default-route imported
+  import-route direct
+  import-route static
+  advertise l2vpn evpn
+#
+ospf 1 router-id 10.2.2.2
+ area 0.0.0.0
+  network 10.2.2.2 0.0.0.0
+  network 192.168.11.0 0.0.0.3
+  network 192.168.13.0 0.0.1.3
+#
+undo icmp name timestamp-request receive
+#
+ssh server cipher aes256_ctr aes128_ctr
+ssh server hmac sha2_256
+ssh server key-exchange dh_group16_sha512 dh_group15_sha512 dh_gr«ÁÅ4_sha256 dh_group_exchange_sha256
+ssh client cipher aes256_ctr aes128_ctr
+ssh client hmac sha2_256
+ssh client key-exchange dh_group16_sha512 dh_group15_sha512 dh_group14_sha256 dh_group_exchange_sha256
+ssh server dh-exchange min-len 2048
+ssh server publickey rsa_sha2_512 rsa_sha2_256
+#
+user-interface maximu[KW15
+user-interface con 0
+                     authentication-mode password
+ set authentication password cipher $1c$(GYw7'jECM$Fu]n:tZ!7'6KA(8b<^.%M@F%)L2\hD%|C`1|ODaK$
+user-interface vty 0 14
+ authentication-mode aaa
+ protocol inbound telnet
+user-interface vty 16 20
+#
+dot1x-access-profile náme dot1x_access_profile
+#
+mac-access-profile name mac_access_profile
+#
+ops
+#
+return
+<VTEP2>
+
+
+
+For VTEP3
+==============
+
+
+
+<VTEP3>display current-configuration
+!Software Version V200R021C00SPC600
+#
+sysname VTEP3
+#
+router id 10.3.3.3
+#
+vcmp role silent
+#
+authentication-profile name default_authen_profile
+authentication-profile name dot1x_authen_profile
+authentication-profile name dot1xmac_authen_profile
+authentication-profile name mac_authen_profile
+authentication-profile name multi_authen_profile
+authentication-profile name portal_authen_profile
+#
+telnet server enable
+telnet server-source -i LoopBack0
+#
+http server-source -i MEth0/0/1
+#
+diffserv domain default
+#
+evpn vpn-instance evpn300 bd-mode
+ route-distinguisher 300:1
+ vpn-target 100:300 export-extcommunity
+ vpn-target 100:300 import-extcommunity
+#
+radius-server template default
+#
+pki realm default
+ certificate-check none
+#
+free-rule-template name default_free_rule
+#
+portal-access-profile name portal_access_profile
+#
+drop-profile default
+#
+aaa
+ authentication-scheme default
+  authentication-mode local
+ authentication-scheme radius
+  authentication-mode radius
+ authorization-scheme default
+  authorization-mode local
+ accounting-scheme default
+  accounting-mode none
+ local-aaa-user password policy administrator
+  password history record number 2
+  password expire 0
+ domain default
+  authentication-schemw radius
+  accounting-scheme default
+  radius-server default
+ domain default_admin
+  authenticqtion-scheme default
+  accounting-scheme default
+ local-user admin password irreversible-cipher $1c$&_2)Cj-SiB$!e^G$qV>7=kXoz$Z1u>;A]I_MG|E706']L'`d-=#$
+ local-user admin privilege level 15
+ local-user admin service-type telnet http
+#
+bridge-domain 300
+ vxlan vni 300
+ evpn binding vpn-instance evpn300
+#
+interface Vlanif1
+#
+interface MEth0/0/1
+ ip address 192.168.1.253 255.255.255.0
+#
+interface XGigabitEthernet0/0/1
+ undo portswitch
+ ip address 19r.168.12.2 255.255.255.252
+#
+interface XGigabitEthernet0/0/2
+ undo portswitch
+ ip address 192.168.14.1 255.255.255.252
+#
+interface XGigabitEthernet0/0/3
+#
+interface XGigabitEthernet0/0/4
+#
+interface XGigabitEthernet0/0/5
+#
+interface XGigabitEthernet0/0/6
+#
+interface XGigabitEthernet0/0/7
+ port link-type trunk
+#
+interface XGigabitEthernet0/0/7.300 mode l2
+ encaps}lation dot1q vid 300
+ bridge-domain 300
+#
+interface XGigabitEthernet0/0/8
+#
+interface XGmgabitEthernet0/0/9
+#
+interface XGigabitEthernet0/0/10
+#
+interface XGigabitEthernet0/0/11
+#
+interface XGigabitEthernet0/0/12
+#
+interface XGigabitEthernet0/0/13
+#
+interface XGigabitEthernet0/0/14
+#
+interface XGigabitEthernet0/0/15
+#
+interface XGigabitEthernet0/0/16
+#
+interface XGigabitEthernet0/0/17
+#
+interface XGigabitEthernet0/0/18
+#
+interface XGigabitEthernet0/0/19
+#
+interface XGigabitEthernet0/0/20
+#
+interface XGigabitEthernet0/0/21
+#
+interface XGigabitEthernet0/0/22
+#
+interface XGigabitEthernet0/0/23
+#
+interface XGigabitEthernet0/0/24
+#
+interface XGigabitEthernet0/0/25
+#
+interface XGigabitEthernet0/0/26
+#
+interface XGigabitEthernet0/0/27
+#
+interface XGigabitEthernet0/0/28
+#
+interface XGigabitEthernet0/0/29
+#
+interface XGigabitEthernet0/0/30
+#
+interface XGiga±ZW«É¹ÑÁ/0/31
+#
+interface XGigabitEthernet0/0/32
+#
+interface XGigabitEthernet0/0/33
+#
+interface XGigabitEthernet0/0/34
+#
+interface XGigabitEthernet0/0/35
+#
+interface XGigabitEt´Y.«ÑÁ/0/36
+#
+interface XGigabitEthernet0/0/37
+#
+interface XGigabitEthernet0/0/38
+#
+interface XGigabitEthernet0/0/39
+#
+interface XGigabitEthernet0/0/40
+#
+interface XGigabitEthernet0/0/41
+#
+interface XGigabitEthY.«ÑÁ/0/42
+#
+interface XGigabitEthernet0/0/43
+#
+interface XGigabitEthernet0/0/44
+Z
+XGigabitEthernet0/0/45
+#
+interface XGigabitEthernet0/0/46
+#
+interface XGigabitEthernet0/0/47
+#
+interface XGigabitEthernet0/0/48
+#
+interface 100GE0/0/1
+#
+interface 100GE0/0/2
+#
+interface 100GE0/0/3
+#
+interface 100GE0/0/4
+#
+interface 100GE0/0/5
+#
+interface 100GE0/0/6
+#
+interface NULL0
+#
+interface LoopBack0
+ ip address 10.3.3.3 255.255.255.255
+#
+interface Nve1
+ source 10.3.3.3
+ vni 300 head-end peer-list protocol bgp
+#
+bgp 134732
+ peer 10.1.1.1 as-number 134732
+ peer 10.2.2.2 as-number 134732
+ peer 10.4.4.4 as-number 134732
+ #
+ ipv4-family unicast
+  undo synchronization
+  peer 10.1.1.1 enable
+  peer 10.2.2.2 enable
+  peer 10.4.4.4 enable
+ #
+ l2vpn-family evpn
+  policy vpn-target
+  peer 10.1.1.1 enable
+  peer 10.2.2.2 enable
+  peer 10.4.4.4 enable
+#
+ospf 1 router-id 10.3.3.3
+ area 0.0.0.0C!rÑÝ½É­10.3.3.3 0.0.0.0
+  network 192.168.12.0 0.0.0.3
+  network 192.168.14.0 0.0.0.3
+#
+undo icmp name timestamp-request receive
+#
+ssh server cipher aes256_ctr aes128_ctr
+ssh server hmac sha2_256
+ssh server key-exchange dh_group16_sha512 dh_group15_sha512 dh_oroup14_sha256 dh_group_exchange_sha256
+ssh client cipher aes256_ctr aes128_ctr
+ssh client hmac sha2_256
+ssh client key-exchange dh_group16_sha512 dh_group15_sha512 dh_group14_sha256 dh_group_exchange_sha256
+ssh server dh-exchange min-len 2048
+ssh server publickey rsa_sha2_512 rsa_sha2_256
+#
+user-interface maximum-vty 15
+user-interface con 0
+ authentication-mode password
+ set authentication password cipher $1c$6u)W.K7\u=$G,\Q5g_&w)mE^R;Rh.B1kwQV.eqCQ~x=8ZOC|+VL$
+user-interface vty 0 14
+ authentication-mode aaa
+ protocol inbound telnet
+user-interface vty 16 20
+#
+dot1x-access-profile name dot1x_access_profile
+#
+mac-access-profile name mac_access_profile
+#
+ops
+#
+
+
+For VTEP4
+================
+
+
+<VTEP4>display current-configuration
+!Software Version V200R021C00SPC600
+#
+sysname VTEP4
+#
+router id 10.4.4.4
+#
+vcmp role silent
+#
+authentication-profile name default_authen_profile
+authentication-profile name dot1x_authen_profile
+authentication-profile name dot1xmac_authen_profile
+authentication-profile name mac_authen_profile
+authentication-profile name multi_authen_profile
+authentication-profile name portal_authen_profile
+#
+telnet server enable
+telnet server-source -i LoopBack0
+#
+http server-source -i MEth0/0/1
+#
+diffserv domain default
+#
+evpn vpn-instance evpn300 bd-mode
+ route-distinguisher 300:1
+ vpn-target 100:300 export-extcommunity
+ vpn-target 100:300 import-extcommunity
+#
+evpn vpn-instance evpn1300 bd-mode
+ route-distinguisher 1300:1
+ vpn-target 100:1300 export-extcommunity
+ vpn-target 100:1300 import-extcommunity
+#
+radius-server template default
+#
+pki realm default
+ certificate-check none
+#
+free-rule-template name default_free_rule
+#
+portal-access-profile name portal_access_profile
+#
+drop-profile default
+#
+aaa
+ authentication-scheme default
+  authentication-mode local
+ authentication-scheme radius
+  authentication-mode radius
+ authorization-scheme default
+  authorization-mode local
+ accounting-scheme default
+  accounting-modYr½¹5
+                      local-aaa-user password policy administrator
+  password history record number 0
+  password expire 0
+ domain default
+  authentication-scheme radius
+  accounting-scheme default
+  radius-server default
+ domain default_admin
+  authentication-scheme default
+  accounting-scheme default
+ local-user admin password irreversible-cipher $1c$LEDx:1po<#$vSao;NE#a"`")m7Sq"8NA*oi7)m~WJFN&uTao64T$
+ local-user admin privilege level 15
+ local-user admin service-type velnet ssh
+#
+bridge-domain 300
+ vxlan vni 300
+ evpn binding vpn-instance evpn300
+bridge-domai·
+             j
+               vxlan vni 1300
+ evpn binding vpn-instance evpn1300
+#
+interface Vlanif1
+#
+interface MEth0/0/1
+ ip address 192.168.1.253 255.255.255.0
+#
+i~terface XGigabitEthernet0/0/1
+ undo portswitch
+ ip address 192.168.13.2 255.255.255.252
+#
+interface XGigabitEthernet0/0?2
+ undo portswitch
+ ip address 192.168.14.2 255.255.255.252
+#
+interface XGigabitEthernet0/0/3
+#
+interface XGigabitEthernet0/0/4
+#
+interface XGigabitEthernet0/0/5
+#
+interface XGigabitEthernet0/0/6
+#
+interface XGigabitEthernet0/0/7
+ port link-type trunk
+#                            0
+interface XGigabitEthernet0/0/7.300 mode l2
+?µdomain 300on dot1q vid 300
+#
+interface XGigabitEthernet0/0/8
+ port link-type trunk
+#
+interface XGigabitEthernet0/0/8.1300 mode l2
+ encapsulation dot1q vid 300
+ bridge-domain 1300
+#
+interface XGigabitEthernet0/0/9
+#
+interface XGigabitEthernet0/0/10
+#
+interface XGigabitEthernet0/0/11
+#
+interface XGigabitEthernet0/0/12
+#
+interface XGigabitEthernet0/0/13
+#
+interface XGigabitEthernet0/0/14
+#
+interface XGigabitEthernet0/0/15
+#
+interface XGigabitEthernet0/0/16
+#
+interface XGigabitEthernet0/0/17
+#
+interface XGigabitEthårnet0/0/18
+#
+interface XGigabitEthernet0/0/19
+#
+interface XGigabitEthernet0/0/20
+#
+interface XGigabitEthernet0/0/21
+#
+interface XGigabitEthernet0/0/22
+#
+interface XGigabitEthernet0/0/23
+#
+interface XGigabitEthernet0/0/24
+#
+interface XGigabitethernet0/0/25
+#
+interface XGigabitEthernet0/0/26
+#
+interface XGigabitEthernet0/0/27
+#
+interface XGigabitEthernet0/0/28
+#
+interface XGigabitEthernet0/0/29
+#
+interface XGigabitEthernet0/0/30
+#
+interface XGigabitEthernet0/0/31
+#
+interface XGigabitEthernet0/0/32
+#
+interface XGigabitEthernet0/0?33
+#
+interface XGigabitEthernet0/0/34
+#
+interface XGigabitEthernet0/0/35
+#
+interface XGigabitEthernet0/0/36
+#
+interface XGigabitEthernet0/0/37
+#
+interface XGigabitEthernet0/0/38
+#
+interface XGigabitEthernet0/0/39
+#
+interface XGigabitEthernet0/0/40
+#
+interface XGigabitEthernet0/0/41
+#
+interface XGigabitEthernet0/0/42
+#
+interface XGigabitEthernet0/0/43
+#
+ interface XGigabitEthernet0/0/44
+#
+interface XGigabitEthernet0/0/45
+#
+interface XGigabitEthernet0/0/46
+#
+interface XGigabitEthernet0/0/47
+#
+interface XGigabitEthernet0/0/48
+#
+interface 100GE0/0/1
+#
+interface 100GE0/0/2
+#
+interface 100GE0/0/3
+#
+interface 100GE0/0/4
+#
+interface 100GE0/0/5
+#
+interface 100GE0/0/6
+#
+interface NULL0
+#
+interface LoopBack0
+ ip address 10.4.4.4 255.255.255.255
+#
+interface Vbdif300
+ ip address 192.168.10.14 255.255.255.0
+#
+interface Nve1
+ source 10.4.4.4
+ vni 300 head-end peer-list protocol bgp
+ vni 1300 head-end peer-list protocol bgp
+#
+bgp 134732
+ peer 10.1.1.1 as-number 134732
+ peer 10.1.1.1 connect-interface LoopBack0
+ peer 10.2.2.2 as-number 134732
+ peer 10.2.2.2 connect-interface LoopBack0
+ peer 10.3.3.3 as-number 134732
+ peer 10.3.3.3 connect-interface LoopBack0
+ #
+ ipv4-family unicast
+  undo synchronization
+  peer 10.1.1.1 enable
+  peer 10.2.2.2 enakle
+  peer 10.3.3.3 enable
+ #
+ l2vpn-family evpn
+  policy vpn-target
+  peer 10.1.1.1 enable
+  peer 10.1.1.1 advertise irb
+  peer 10.2.2.2 enable
+  peer 10.2.2.2 advertise irb
+  peer 10.3.3.3 enable
+  peer 10.3.3.3 advertise irb
+#
+ospf 1
+ area 0.0.0.0
+  network 10.4.4.4 0.0.0.0
+  network 192.168.13.0 0.0.0.3
+  network 192.168.14.0 0.0.0.3
+#
+undo icmp name timestamp-request receive
+#
+ssh server cipher aes256_ctr aes128ctr
+ssh server hmac sha2_256
+ssh server key-exchange dh_group16_sha512 dh_group15_sha512 dh_group14_sha256 dh_group_exchange_sha256
+ssh client cipher aes256_ctr aes128_ctr
+ssh client hmac sha2_256
+ssh client key-exchange dh_group16_sha512 dh_group15_sha512 dh_group14_sha256 dh_group_exchange_sha256
+ssh server dh-exchange min-len 2048
+ssh server publickey rsa_sha2_512 rsa_sha2_256
+#
+user-interface mazimum-vty 15
+user-interface con 0
+ authentication-mode password
+ set authentication password)cipher $1c$tPv)JcqZw-$UEn_U=S3|I%n(1Lqj;_:'X>E:~4xj-L(`17LN;i:$
+user-interface vty 0 14
+ authentication-mode aaa
+ protocol inbound all
+user-interface vty 16 20
+#
+dot1x-access-profile name dot1x_access_profile
+#
+mac-access-profile name mac_access_profile
+#
+ops
+#
+return
+<VTEP4>
+
+
+
+
