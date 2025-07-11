@@ -1,0 +1,19 @@
+interface Ethernet1/10
+  description Access-Switch-Trunk
+  switchport mode trunk
+  switchport trunk allowed vlan 2310-2315
+  spanning-tree bpduguard enable
+  spanning-tree guard root
+  spanning-tree bpdufilter enable
+  logging event port link-status
+  no shutdown
+
+interface Ethernet1/59
+  description Underlay-P2P-Uplink
+  no switchport
+  mtu 9200
+  ip address 10.19.4.41/30
+  ip ospf network point-to-point
+  ip router ospf 10 area 0.0.0.0
+  ip pim sparse-mode
+  no shutdown

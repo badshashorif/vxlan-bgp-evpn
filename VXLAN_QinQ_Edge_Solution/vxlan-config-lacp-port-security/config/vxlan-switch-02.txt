@@ -1,0 +1,42 @@
+interface port-channel21
+  description VXLAN-Fabric-Link
+  no switchport
+  mtu 9200
+  ip address 10.19.4.9/30
+  ip ospf network point-to-point
+  ip router ospf 10 area 0.0.0.0
+  ip pim sparse-mode
+
+interface Ethernet1/56
+  description Fabric-Uplink-1
+  no switchport
+  mtu 9200
+  channel-group 21 mode active
+  no shutdown
+
+interface Ethernet1/63
+  description Fabric-Uplink-2
+  no switchport
+  mtu 9200
+  channel-group 21 mode active
+  no shutdown
+
+interface port-channel5
+  description Access-Switch-LACP-Trunk
+  switchport mode trunk
+  switchport trunk allowed vlan 2801-2805
+  spanning-tree bpdufilter enable
+
+interface Ethernet1/35
+  description Access-Port1
+  switchport mode trunk
+  switchport trunk allowed vlan 2801-2805
+  channel-group 5 mode active
+  spanning-tree bpdufilter enable
+
+interface Ethernet1/36
+  description Access-Port2
+  switchport mode trunk
+  switchport trunk allowed vlan 2801-2805
+  channel-group 5 mode active
+  spanning-tree bpdufilter enable
